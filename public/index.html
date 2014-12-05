@@ -1,0 +1,33 @@
+<html ng-app="tpbApp">
+<head>
+	<title>TPB + IMDb thing</title>
+	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css">
+</head>
+<body ng-controller="MainCtrl">
+	<table class="display dataTable" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Year</th>
+				<th>Genre</th>
+				<th>Rating</th>
+				<th>Info</th>
+				<th>Download</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="movie in movies">
+				<td>{{movie.Title}}</td>
+				<td>{{movie.Year}}</td>
+				<td>{{movie.Genre}}</td>
+				<td>{{movie.imdbRating}}</td>
+				<td>[Info]</td>
+				<td>[Download]</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

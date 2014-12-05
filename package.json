@@ -1,0 +1,24 @@
+{
+  "name": "tpb-imdb",
+  "version": "0.0.0",
+  "description": "tpb-imdb ========",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matt-way/tpb-imdb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matt-way/tpb-imdb/issues"
+  },
+  "homepage": "https://github.com/matt-way/tpb-imdb",
+  "dependencies": {
+    "express": "^4.10.4",
+    "request": "^2.49.0",
+    "serve-static": "^1.7.1"
+  }
+}

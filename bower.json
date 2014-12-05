@@ -1,0 +1,17 @@
+{
+  "name": "tpb-imdb",
+  "version": "0.0.0",
+  "homepage": "https://github.com/matt-way/tpb-imdb",
+  "authors": [
+    "Matt Way <matt__way@hotmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
