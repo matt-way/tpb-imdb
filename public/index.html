@@ -16,13 +16,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="movie in movies">
+			<tr ng-repeat-start="movie in movies">
 				<td>{{movie.Title}}</td>
 				<td>{{movie.Year}}</td>
 				<td>{{movie.Genre}}</td>
 				<td>{{movie.imdbRating}}</td>
-				<td>[Info]</td>
+				<td ng-click="state.selectedInfo = movie.Title">[Info]</td>
 				<td>[Download]</td>
+			</tr>
+			<tr ng-repeat-end="" ng-if="state.selectedInfo == movie.Title">
+				<td colspan="6">Item is open</td>
 			</tr>
 		</tbody>
 	</table>

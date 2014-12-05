@@ -18,11 +18,10 @@ app.set('public', path.join(__dirname, 'public'));
 // NOTE: this must go before routes, as routes have a catch all setup
 app.use(serveStatic(app.get('public')));
 
-app.get('/cache.json', function(req, res, next){
 
+app.get('/cache.json', function(req, res, next){
 	request('https://guarded-hamlet-4288.herokuapp.com/cache.json', function (error, response, body) {
   		if (!error && response.statusCode == 200) {
-    		//console.log(body) // Print the google web page.
     		return res.send(JSON.parse(body));
  	 	}
 	});
@@ -30,5 +29,5 @@ app.get('/cache.json', function(req, res, next){
 
 
 app.listen(app.get('port'), function(){
-  console.log('memeBig frontend server listening on port ' + app.get('port'));
+  console.log('tpb-imdb frontend server listening on port ' + app.get('port'));
 });
