@@ -16,7 +16,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat-start="movie in movies">
+			<tr ng-repeat-start="movie in movies | orderBy:state.sortCol:state.sortReverse">
 				<td>{{movie.Title}}</td>
 				<td>{{movie.Year}}</td>
 				<td>{{movie.Genre}}</td>
