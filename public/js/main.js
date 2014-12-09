@@ -14,6 +14,7 @@ angular.module('tpbApp', [])
 			$scope.loading = false;
 		});
 
+		//toggle open info row
 		$scope.infoClicked = function(movie){
 			if ($scope.state.selectedInfo == movie.Title){
 				$scope.state.selectedInfo = null;
@@ -21,5 +22,19 @@ angular.module('tpbApp', [])
 				$scope.state.selectedInfo = movie.Title;
 			}
 		}
-		$scope.selectedInfo = null;
+		//toggle open download row
+		$scope.downloadClicked = function(movie){
+			if ($scope.state.selectedDownload == movie.Title){
+				$scope.state.selectedDownload = null;
+			} else {
+				$scope.state.selectedDownload = movie.Title;
+
+				//grab torrents from API
+				$http.get('/search?t=' + movie.Title).success(function(result){
+					$scope.state.torrents = result.data;
+					$scope.loading = false;
+				});
+			}
+		}
+
 	});

@@ -22,10 +22,65 @@
 				<td>{{movie.Genre}}</td>
 				<td>{{movie.imdbRating}}</td>
 				<td ng-click="infoClicked(movie)">[Info]</td>
-				<td ng-click="selectedInfo = movie.Title">[Download]</td>
+				<td ng-click="downloadClicked(movie)">[Download]</td>
 			</tr>
-			<tr ng-repeat-end="" ng-if="selectedInfo == movie.Title">
-				<td colspan="6">Item is open</td>
+			<tr ng-if="state.selectedInfo == movie.Title">
+				<td colspan="6" cellspacing="0">
+					<table>
+						<tr>
+							<td>Plot</td>
+							<td>{{movie.Plot}}</td>
+						</tr>
+						<tr>
+							<td>Rated</td>
+							<td>{{movie.Rated}}</td>
+						</tr>
+						<tr>
+							<td>Runtime</td>
+							<td>{{movie.Runtime}}</td>
+						</tr>
+						<tr>
+							<td>Director</td>
+							<td>{{movie.Director}}</td>
+						</tr>
+						<tr>
+							<td>Actors</td>
+							<td>{{movie.Actors}}</td>
+						</tr>
+						<tr>
+							<td>Writer</td>
+							<td>{{movie.Writer}}</td>
+						</tr>
+						<tr>
+							<td>Language</td>
+							<td>{{movie.Language}}</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr ng-repeat-end="" ng-if="state.selectedDownload == movie.Title">
+				<td colspan="6">
+					<table class="display dataTable" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Size</th>
+								<th>Seeders</th>
+								<th>Leechers</th>
+								<th>Download</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="torrent in state.torrents">
+								<td>{{torrent.name}}</td>
+								<td>{{torrent.size}}</td>
+								<td>{{torrent.seeders}}</td>
+								<td>{{torrent.leechers}}</td>
+								<td><a ng-href="{{torrent.magnetLink}}">[Download]</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
 			</tr>
 		</tbody>
 	</table>
