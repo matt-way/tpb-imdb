@@ -7,7 +7,7 @@
 	<table class="display dataTable" cellspacing="0" width="100%">
 		<thead>
 			<tr>
-				<th>Name</th>
+				<th ng-click="state.sortCol = 'Title'">Name</th>
 				<th>Year</th>
 				<th>Genre</th>
 				<th>Rating</th>
@@ -21,14 +21,16 @@
 				<td>{{movie.Year}}</td>
 				<td>{{movie.Genre}}</td>
 				<td>{{movie.imdbRating}}</td>
-				<td ng-click="state.selectedInfo = movie.Title">[Info]</td>
-				<td>[Download]</td>
+				<td ng-click="infoClicked(movie)">[Info]</td>
+				<td ng-click="selectedInfo = movie.Title">[Download]</td>
 			</tr>
-			<tr ng-repeat-end="" ng-if="state.selectedInfo == movie.Title">
+			<tr ng-repeat-end="" ng-if="selectedInfo == movie.Title">
 				<td colspan="6">Item is open</td>
 			</tr>
 		</tbody>
 	</table>
+	
+	<div ng-if="loading">Loading</div>
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js"></script>
 	<script src="js/main.js"></script>

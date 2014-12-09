@@ -19,6 +19,8 @@
   "dependencies": {
     "express": "^4.10.4",
     "request": "^2.49.0",
-    "serve-static": "^1.7.1"
+    "serve-static": "^1.7.1",
+    "thepiratebay": "~0.1.2",
+    "lodash": "~2.4.1"
   }
 }
