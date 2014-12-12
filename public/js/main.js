@@ -10,7 +10,7 @@ angular.module('tpbApp', [])
 
 		$scope.loading = true;
 		$http.get('/cache.json').success(function(result){
-			$scope.movies = result.data;
+			$scope.movies = result;
 			$scope.loading = false;
 		});
 
@@ -30,11 +30,21 @@ angular.module('tpbApp', [])
 				$scope.state.selectedDownload = movie.Title;
 
 				//grab torrents from API
-				$http.get('/search?t=' + movie.Title).success(function(result){
-					$scope.state.torrents = result.data;
+				$scope.state.torrents = null;
+				$http.get('/search?t=' + movie.Title, { cache: true }).success(function(result){
+					$scope.state.torrents = result.list;
 					$scope.loading = false;
 				});
 			}
 		}
 
+	})
+	.filter('bytes', function() {
+		return function(bytes, precision) {
+			if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+			if (typeof precision === 'undefined') precision = 1;
+			var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+				number = Math.floor(Math.log(bytes) / Math.log(1024));
+			return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
+		}
 	});

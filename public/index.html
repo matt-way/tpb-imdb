@@ -2,6 +2,7 @@
 <head>
 	<title>TPB + IMDb thing</title>
 	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css">
+	<link rel="stylesheet" type="text/css" href="css/movies.css">
 </head>
 <body ng-controller="MainCtrl">
 	<table class="display dataTable" cellspacing="0" width="100%">
@@ -26,7 +27,8 @@
 			</tr>
 			<tr ng-if="state.selectedInfo == movie.Title">
 				<td colspan="6" cellspacing="0">
-					<table>
+					<img class="poster" ng-src="{{movie.Poster}}"/>
+					<table class="movie-info">
 						<tr>
 							<td>Plot</td>
 							<td>{{movie.Plot}}</td>
@@ -72,11 +74,11 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="torrent in state.torrents">
-								<td>{{torrent.name}}</td>
-								<td>{{torrent.size}}</td>
-								<td>{{torrent.seeders}}</td>
-								<td>{{torrent.leechers}}</td>
-								<td><a ng-href="{{torrent.magnetLink}}">[Download]</a></td>
+								<td>{{torrent.title}}</td>
+								<td>{{torrent.size | bytes}}</td>
+								<td>{{torrent.seeds}}</td>
+								<td>{{torrent.peers}}</td>
+								<td><a ng-href="{{torrent.torrentLink}}">[Download]</a></td>
 							</tr>
 						</tbody>
 					</table>

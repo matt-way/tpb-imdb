@@ -4,6 +4,7 @@
  */
 
 var express = require('express'),
+lessMiddleware = require('less-middleware'),
 	path = require('path'),
 	serveStatic = require('serve-static'),
 	request = require('request'),
@@ -19,6 +20,7 @@ app.set('public', path.join(__dirname, 'public'));
 
 // setup the static file folder
 // NOTE: this must go before routes, as routes have a catch all setup
+app.use(lessMiddleware(app.get('public')));
 app.use(serveStatic(app.get('public')));
 
 app.listen(app.get('port'), function(){
@@ -27,25 +29,20 @@ app.listen(app.get('port'), function(){
 
 app.get('/cache.json', function (req, res) {
 	console.log('Sending movie cache');
-	var serveCache = { 'data': cachedResults };
-	res.send(serveCache);
+	//var serveCache = { 'data': cachedResults };
+	res.send(cachedResults);
 })
 
 //torrent search endpoint
 app.get('/search', function (req, res) {
 	//if title query string exists
 	if(req.query.t){
-		tpb.search(req.query.t,{
-			category: '201',
-			orderBy: '7'
-		}).then(function(results){
-			//console.log(results);
-			res.send({ response: 'true',
-					   data: results }
-			);
-		}).catch(function(err){
-			console.log(err);
-			res.send({response: 'false'});
+
+		var searchURL = 'https://kickass.so/json.php?q='+ req.query.t + '%20category:movies&field=seeders&sorder=desc';
+		request(searchURL, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				res.send(JSON.parse(body)); // Print the google web page.
+			}
 		});
 	}else{
 		res.send({response: 'false'});
@@ -58,23 +55,36 @@ rebuildCache();
 //some functions
 function rebuildCache(){
 	console.log('Rebuilding movie cache');
-	//get top movies from tpb
-	tpb.topTorrents('201')
-	.then(function(results){
-		//clear cache
-		cachedResults = [];
-		var movieList = [];
 
-		var resultsLength = results.length;
-		//iterate through results
-		for(i = 0; i < resultsLength; i++){
-			//tidy up torrent title
-			var movieTitle = titleTidy(results[i].name);
-			//push to movie list
-			movieList.push(toTitleCase(movieTitle));
+	var movieList = [];
+	cachedResults = [];
+
+	//loop request 3 times
+		//add to array
+	//on 4th time pluck titles
+
+	var pages = 4;
+	var count = 0;
+	for(k = 1; k < pages + 1; k++){
+		var moviesURL = 'https://kickass.so/json.php?q=%20category:movies&field=seeders&sorder=desc&page=' + k;
+		request(moviesURL, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				//do the thing
+				var json = JSON.parse(body);
+				var results = json.list;
+
+				var resultsLength = results.length;
+				//iterate through results
+				for(i = 0; i < resultsLength; i++){
+					//tidy up torrent title
+					var movieTitle = toTitleCase(titleTidy(results[i].title));
+					//push to movie list
+					movieList.push(movieTitle);
+				}
+			}
+			count++;
 			//after iterating through results
-			if(i == resultsLength - 1){
-				//de-duplicate
+			if(count == pages){
 				movieListUnDupe = _.uniq(movieList);
 
 				//request imdb info for each movie title.
@@ -91,11 +101,8 @@ function rebuildCache(){
 					});
 				}
 			}
-		}
-
-	}).catch(function(err){
-		console.log(err);
-	});
+		});
+	}
 
 	//rebuild every hour
 	setTimeout(function(){
