@@ -5,7 +5,8 @@ angular.module('tpbApp', [])
 		$scope.state = {
 			selectedInfo: null,
 			sortCol: 'imdbRating',
-			sortReverse: true
+			sortReverse: true,
+			genreFilter: ''
 		};
 
 		$scope.loading = true;
@@ -31,9 +32,10 @@ angular.module('tpbApp', [])
 
 				//grab torrents from API
 				$scope.state.torrents = null;
+				$scope.loadingTorrents = true;
 				$http.get('/search?t=' + movie.Title, { cache: true }).success(function(result){
 					$scope.state.torrents = result.list;
-					$scope.loading = false;
+					$scope.loadingTorrents = false;
 				});
 			}
 		}

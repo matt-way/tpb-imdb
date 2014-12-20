@@ -5,6 +5,21 @@
 	<link rel="stylesheet" type="text/css" href="css/movies.css">
 </head>
 <body ng-controller="MainCtrl">
+	<div>
+		<span ng-click="state.genreFilter = ''">All</span>
+		<span ng-click="state.genreFilter = 'action'">Action</span>
+		<span ng-click="state.genreFilter = 'adventure'">Adventure</span>
+		<span ng-click="state.genreFilter = 'comedy'">Comedy</span>
+		<span ng-click="state.genreFilter = 'crime'">Crime</span>
+		<span ng-click="state.genreFilter = 'drama'">Drama</span>
+		<span ng-click="state.genreFilter = 'fantasy'">Fantasy</span>
+		<span ng-click="state.genreFilter = 'horror'">Horror</span>
+		<span ng-click="state.genreFilter = 'mystery'">Mystery</span>
+		<span ng-click="state.genreFilter = 'romance'">Romance</span>
+		<span ng-click="state.genreFilter = 'sci-fi'">Sci-Fi</span>
+		<span ng-click="state.genreFilter = 'thriller'">Thriller</span>
+
+	</div>
 	<table class="display dataTable" cellspacing="0" width="100%">
 		<thead>
 			<tr>
@@ -17,13 +32,19 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat-start="movie in movies | orderBy:state.sortCol:state.sortReverse">
+			<tr ng-repeat-start="movie in movies | orderBy:state.sortCol:state.sortReverse | filter:state.genreFilter">
 				<td>{{movie.Title}}</td>
 				<td>{{movie.Year}}</td>
 				<td>{{movie.Genre}}</td>
 				<td>{{movie.imdbRating}}</td>
-				<td ng-click="infoClicked(movie)">[Info]</td>
-				<td ng-click="downloadClicked(movie)">[Download]</td>
+				<td>
+					<span ng-click="infoClicked(movie)" ng-if="state.selectedInfo != movie.Title">[Info]</span>
+					<span ng-click="infoClicked(movie)" ng-if="state.selectedInfo == movie.Title">[Close]</span>
+				</td>
+				<td>
+					<span ng-click="downloadClicked(movie)" ng-if="state.selectedDownload != movie.Title">[Download]</span>
+					<span ng-click="downloadClicked(movie)" ng-if="state.selectedDownload == movie.Title">[Close]</span>
+				</td>
 			</tr>
 			<tr ng-if="state.selectedInfo == movie.Title">
 				<td colspan="6" cellspacing="0">
@@ -82,6 +103,7 @@
 							</tr>
 						</tbody>
 					</table>
+					<div ng-if="loadingTorrents">Loading Torrents</div>
 				</td>
 			</tr>
 		</tbody>

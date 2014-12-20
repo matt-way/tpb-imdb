@@ -63,23 +63,27 @@ function rebuildCache(){
 		//add to array
 	//on 4th time pluck titles
 
-	var pages = 4;
+	var pages = 8;
 	var count = 0;
 	for(k = 1; k < pages + 1; k++){
 		var moviesURL = 'https://kickass.so/json.php?q=%20category:movies&field=seeders&sorder=desc&page=' + k;
 		request(moviesURL, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				//do the thing
 				var json = JSON.parse(body);
 				var results = json.list;
 
 				var resultsLength = results.length;
 				//iterate through results
 				for(i = 0; i < resultsLength; i++){
-					//tidy up torrent title
-					var movieTitle = toTitleCase(titleTidy(results[i].title));
-					//push to movie list
-					movieList.push(movieTitle);
+					var torrentName = results[i].title
+					//exclude CAM/TS torrents
+					var regex = /(\WCAM\W|\WTS\W|\WHDTS\W|\WHDCAM\W|\Wtrailer\W|\Wteaser\W)/ig;
+					if(!regex.test(torrentName)){
+						//tidy up torrent title
+						var movieTitle = toTitleCase(titleTidy(torrentName));
+						//push to movie list
+						movieList.push(movieTitle);
+					}
 				}
 			}
 			count++;
