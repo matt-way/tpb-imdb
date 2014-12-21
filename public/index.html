@@ -28,11 +28,11 @@
 				<th>Genre</th>
 				<th>Rating</th>
 				<th>Info</th>
-				<th>Download</th>
+				<th>Seen It</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat-start="movie in movies | orderBy:state.sortCol:state.sortReverse | filter:state.genreFilter">
+			<tr ng-repeat-start="movie in movies | orderBy:state.sortCol:state.sortReverse | filter:state.genreFilter" ng-if="!state.seenIt[movie.Title]">
 				<td>{{movie.Title}}</td>
 				<td>{{movie.Year}}</td>
 				<td>{{movie.Genre}}</td>
@@ -41,10 +41,7 @@
 					<span ng-click="infoClicked(movie)" ng-if="state.selectedInfo != movie.Title">[Info]</span>
 					<span ng-click="infoClicked(movie)" ng-if="state.selectedInfo == movie.Title">[Close]</span>
 				</td>
-				<td>
-					<span ng-click="downloadClicked(movie)" ng-if="state.selectedDownload != movie.Title">[Download]</span>
-					<span ng-click="downloadClicked(movie)" ng-if="state.selectedDownload == movie.Title">[Close]</span>
-				</td>
+				<td> <span ng-click="addSeenIt(movie.Title)">[Seen It]</td>
 			</tr>
 			<tr ng-if="state.selectedInfo == movie.Title">
 				<td colspan="6" cellspacing="0">
@@ -79,6 +76,8 @@
 							<td>{{movie.Language}}</td>
 						</tr>
 					</table>
+					<span ng-click="downloadClicked(movie)" ng-if="state.selectedDownload != movie.Title">[Download]</span>
+					<span ng-click="downloadClicked(movie)" ng-if="state.selectedDownload == movie.Title">[Close]</span>
 				</td>
 			</tr>
 			<tr ng-repeat-end="" ng-if="state.selectedDownload == movie.Title">
@@ -112,6 +111,7 @@
 	<div ng-if="loading">Loading</div>
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js"></script>
+	<script src="lib/ngstorage/ngStorage.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>

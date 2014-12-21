@@ -4,7 +4,7 @@
  */
 
 var express = require('express'),
-lessMiddleware = require('less-middleware'),
+	lessMiddleware = require('less-middleware'),
 	path = require('path'),
 	serveStatic = require('serve-static'),
 	request = require('request'),
@@ -77,7 +77,7 @@ function rebuildCache(){
 				for(i = 0; i < resultsLength; i++){
 					var torrentName = results[i].title
 					//exclude CAM/TS torrents
-					var regex = /(\WCAM\W|\WTS\W|\WHDTS\W|\WHDCAM\W|\Wtrailer\W|\Wteaser\W)/ig;
+					var regex = /(\WCAM\W|\WTS\W|\WHDTS\W|\WHDCAM\W|\Wtrailer\W|\Wteaser\W|\Wcamrip\W)/ig;
 					if(!regex.test(torrentName)){
 						//tidy up torrent title
 						var movieTitle = toTitleCase(titleTidy(torrentName));

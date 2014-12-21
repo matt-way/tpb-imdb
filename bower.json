@@ -12,6 +12,11 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
-  ]
+    "tests",
+    "public/lib"
+  ],
+  "main": "/public/index.html",
+  "dependencies": {
+    "ngstorage": "~0.3.0"
+  }
 }

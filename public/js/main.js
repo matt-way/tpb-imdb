@@ -1,12 +1,18 @@
 
-angular.module('tpbApp', [])
-	.controller('MainCtrl', function($scope, $http){
+angular.module('tpbApp', ['ngStorage'])
+	.controller('MainCtrl', function($scope, $http, $localStorage, $sessionStorage){
 		$scope.something = 'hello';
+		//seenit
+		if(!$localStorage.seenIt){
+			$localStorage.seenIt = {};
+		}
+
 		$scope.state = {
 			selectedInfo: null,
 			sortCol: 'imdbRating',
 			sortReverse: true,
-			genreFilter: ''
+			genreFilter: '',
+			seenIt: $localStorage.seenIt
 		};
 
 		$scope.loading = true;
@@ -40,6 +46,10 @@ angular.module('tpbApp', [])
 			}
 		}
 
+		//seenIt
+		$scope.addSeenIt = function(movieTitle){
+			$localStorage.seenIt[movieTitle] = { seen: true };
+		}
 	})
 	.filter('bytes', function() {
 		return function(bytes, precision) {
