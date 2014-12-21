@@ -5,6 +5,14 @@
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 </head>
 <body ng-controller="MainCtrl">
+	<div class="container">
+
+		<div class="side-header"></div>
+		<div class="movie" ng-repeat="movie in movies | orderBy:state.sortCol:state.sortReverse">
+			<div class="poster" ng-style="{'background-image':'url({{movie.Poster}})'}"></div>
+		</div>
+	</div>
+	<!--
 	<div class="genres">
 		<span class="genre" ng-click="state.genreFilter = ''">All</span>
 		<span class="genre" ng-click="state.genreFilter = 'action'">Action</span>
@@ -19,6 +27,8 @@
 		<span class="genre" ng-click="state.genreFilter = 'sci-fi'">Sci-Fi</span>
 		<span class="genre" ng-click="state.genreFilter = 'thriller'">Thriller</span>
 	</div>
+	-->
+	<!--
 	<div class="movies">
 		<div class="movie" ng-repeat="movie in movies | orderBy:state.sortCol:state.sortReverse | filter:state.genreFilter" ng-if="!state.seenIt[movie.Title]">
 			<div class="movie-item" ng-click="infoClicked(movie)">
@@ -63,7 +73,7 @@
 			</div>
 		</div>
 	</div>
-	
+	-->
 	<div ng-if="loading">Loading</div>
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js"></script>
