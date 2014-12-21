@@ -1,112 +1,68 @@
 <html ng-app="tpbApp">
 <head>
 	<title>TPB + IMDb thing</title>
-	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="css/movies.css">
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 </head>
 <body ng-controller="MainCtrl">
-	<div>
-		<span ng-click="state.genreFilter = ''">All</span>
-		<span ng-click="state.genreFilter = 'action'">Action</span>
-		<span ng-click="state.genreFilter = 'adventure'">Adventure</span>
-		<span ng-click="state.genreFilter = 'comedy'">Comedy</span>
-		<span ng-click="state.genreFilter = 'crime'">Crime</span>
-		<span ng-click="state.genreFilter = 'drama'">Drama</span>
-		<span ng-click="state.genreFilter = 'fantasy'">Fantasy</span>
-		<span ng-click="state.genreFilter = 'horror'">Horror</span>
-		<span ng-click="state.genreFilter = 'mystery'">Mystery</span>
-		<span ng-click="state.genreFilter = 'romance'">Romance</span>
-		<span ng-click="state.genreFilter = 'sci-fi'">Sci-Fi</span>
-		<span ng-click="state.genreFilter = 'thriller'">Thriller</span>
-
+	<div class="genres">
+		<span class="genre" ng-click="state.genreFilter = ''">All</span>
+		<span class="genre" ng-click="state.genreFilter = 'action'">Action</span>
+		<span class="genre" ng-click="state.genreFilter = 'adventure'">Adventure</span>
+		<span class="genre" ng-click="state.genreFilter = 'comedy'">Comedy</span>
+		<span class="genre" ng-click="state.genreFilter = 'crime'">Crime</span>
+		<span class="genre" ng-click="state.genreFilter = 'drama'">Drama</span>
+		<span class="genre" ng-click="state.genreFilter = 'fantasy'">Fantasy</span>
+		<span class="genre" ng-click="state.genreFilter = 'horror'">Horror</span>
+		<span class="genre" ng-click="state.genreFilter = 'mystery'">Mystery</span>
+		<span class="genre" ng-click="state.genreFilter = 'romance'">Romance</span>
+		<span class="genre" ng-click="state.genreFilter = 'sci-fi'">Sci-Fi</span>
+		<span class="genre" ng-click="state.genreFilter = 'thriller'">Thriller</span>
 	</div>
-	<table class="display dataTable" cellspacing="0" width="100%">
-		<thead>
-			<tr>
-				<th ng-click="state.sortCol = 'Title'">Name</th>
-				<th>Year</th>
-				<th>Genre</th>
-				<th>Rating</th>
-				<th>Info</th>
-				<th>Seen It</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat-start="movie in movies | orderBy:state.sortCol:state.sortReverse | filter:state.genreFilter" ng-if="!state.seenIt[movie.Title]">
-				<td>{{movie.Title}}</td>
-				<td>{{movie.Year}}</td>
-				<td>{{movie.Genre}}</td>
-				<td>{{movie.imdbRating}}</td>
-				<td>
-					<span ng-click="infoClicked(movie)" ng-if="state.selectedInfo != movie.Title">[Info]</span>
-					<span ng-click="infoClicked(movie)" ng-if="state.selectedInfo == movie.Title">[Close]</span>
-				</td>
-				<td> <span ng-click="addSeenIt(movie.Title)">[Seen It]</td>
-			</tr>
-			<tr ng-if="state.selectedInfo == movie.Title">
-				<td colspan="6" cellspacing="0">
-					<img class="poster" ng-src="{{movie.Poster}}"/>
-					<table class="movie-info">
-						<tr>
-							<td>Plot</td>
-							<td>{{movie.Plot}}</td>
-						</tr>
-						<tr>
-							<td>Rated</td>
-							<td>{{movie.Rated}}</td>
-						</tr>
-						<tr>
-							<td>Runtime</td>
-							<td>{{movie.Runtime}}</td>
-						</tr>
-						<tr>
-							<td>Director</td>
-							<td>{{movie.Director}}</td>
-						</tr>
-						<tr>
-							<td>Actors</td>
-							<td>{{movie.Actors}}</td>
-						</tr>
-						<tr>
-							<td>Writer</td>
-							<td>{{movie.Writer}}</td>
-						</tr>
-						<tr>
-							<td>Language</td>
-							<td>{{movie.Language}}</td>
-						</tr>
-					</table>
-					<span ng-click="downloadClicked(movie)" ng-if="state.selectedDownload != movie.Title">[Download]</span>
-					<span ng-click="downloadClicked(movie)" ng-if="state.selectedDownload == movie.Title">[Close]</span>
-				</td>
-			</tr>
-			<tr ng-repeat-end="" ng-if="state.selectedDownload == movie.Title">
-				<td colspan="6">
-					<table class="display dataTable" cellspacing="0" width="100%">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Size</th>
-								<th>Seeders</th>
-								<th>Leechers</th>
-								<th>Download</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="torrent in state.torrents">
-								<td>{{torrent.title}}</td>
-								<td>{{torrent.size | bytes}}</td>
-								<td>{{torrent.seeds}}</td>
-								<td>{{torrent.peers}}</td>
-								<td><a ng-href="{{torrent.torrentLink}}">[Download]</a></td>
-							</tr>
-						</tbody>
-					</table>
-					<div ng-if="loadingTorrents">Loading Torrents</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="movies">
+		<div class="movie" ng-repeat="movie in movies | orderBy:state.sortCol:state.sortReverse | filter:state.genreFilter" ng-if="!state.seenIt[movie.Title]">
+			<div class="movie-item" ng-click="infoClicked(movie)">
+				<div class="poster" ng-style="{'background-image':'url({{movie.Poster}})'}"></div>
+				<div class="movie-details">
+					<div class="movie-details-1">
+						<span>{{movie.Year}}</span>
+						<span>{{movie.Genre | uppercase}}</span>
+					</div>
+					<div class="movie-details-2">
+						<span>{{movie.Title | uppercase}}</span>
+						<span class="imdb-rating">{{movie.imdbRating}}</span>
+					</div>
+					<div class="movie-controls">
+						<span ng-click="addSeenIt(movie.Title)">[Seen It]</span>
+					</div>
+				</div>
+			</div>
+			<div ng-if="state.selectedInfo == movie.Title">
+				<div class="movie-info">
+					<div>{{movie.Plot}}</div>
+					<div>
+						<div class="movie-info-item"><span class="bold">Rated:</span> {{movie.Rated}}</div>
+						<div class="movie-info-item"><span class="bold">Runtime:</span> {{movie.Runtime}}</div>
+						<div class="movie-info-item"><span class="bold">Language:</span> {{movie.Language}}</div>
+						<div class="movie-info-item"><span class="bold">Director:</span> {{movie.Director}}</div>
+						<div class="movie-info-item"><span class="bold">Actors:</span> {{movie.Actors}}</div>
+						<div class="movie-info-item"><span class="bold">Writer:</span> {{movie.Writer}}</div>
+					</div>
+				</div>
+				<div class="movie-download">
+					<div class="movie-torrent" ng-repeat="torrent in state.torrents">
+						<div class="movie-torrent-title">{{torrent.title}} <span class="movie-torrent-size">{{torrent.size | bytes}}</span></div>
+						<div class="movie-torrent-details">
+							<span class="bold">SEEDERS:</span> {{torrent.seeds | number}}
+							<span class="bold">PEERS:</span> {{torrent.peers | number}}
+						</div>
+						<a ng-href="{{torrent.torrentLink}}">[Download]</a>
+					</div>
+				</div>
+				<div ng-if="loadingTorrents">Loading Torrents</div>
+			</div>
+		</div>
+	</div>
 	
 	<div ng-if="loading">Loading</div>
 

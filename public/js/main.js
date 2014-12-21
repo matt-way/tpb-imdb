@@ -28,22 +28,13 @@ angular.module('tpbApp', ['ngStorage'])
 			} else {
 				$scope.state.selectedInfo = movie.Title;
 			}
-		}
-		//toggle open download row
-		$scope.downloadClicked = function(movie){
-			if ($scope.state.selectedDownload == movie.Title){
-				$scope.state.selectedDownload = null;
-			} else {
-				$scope.state.selectedDownload = movie.Title;
-
-				//grab torrents from API
-				$scope.state.torrents = null;
-				$scope.loadingTorrents = true;
-				$http.get('/search?t=' + movie.Title, { cache: true }).success(function(result){
-					$scope.state.torrents = result.list;
-					$scope.loadingTorrents = false;
-				});
-			}
+			//grab torrents from API
+			$scope.state.torrents = null;
+			$scope.loadingTorrents = true;
+			$http.get('/search?t=' + movie.Title, { cache: true }).success(function(result){
+				$scope.state.torrents = result.list.slice(0,10);
+				$scope.loadingTorrents = false;
+			});
 		}
 
 		//seenIt
