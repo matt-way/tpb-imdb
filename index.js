@@ -41,7 +41,24 @@ app.get('/search', function (req, res) {
 		var searchURL = 'https://kickass.so/json.php?q='+ req.query.t + '%20category:movies&field=seeders&sorder=desc';
 		request(searchURL, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				res.send(JSON.parse(body)); // Print the google web page.
+				res.send(JSON.parse(body));
+			}
+		});
+	}else{
+		res.send({response: 'false'});
+	}
+})
+
+//trailer search endpoint
+app.get('/trailer', function (req, res) {
+	//if title query string exists
+	if(req.query.t){
+
+		var searchURL = 'http://trailersapi.com/trailers.json?movie='+ req.query.t + '&limit=1&width=320';
+		console.log(searchURL);
+		request(searchURL, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				res.send(body);
 			}
 		});
 	}else{
@@ -96,7 +113,7 @@ function rebuildCache(){
 					imdb(movieListUnDupe[j], function(body){
 						movie = JSON.parse(body);
 						//if the movie was found at IMDb
-						if(movie.Response == 'True' && movie.imdbRating != 'N/A'){
+						if(movie.Response == 'True' && movie.imdbRating != 'N/A' & movie.imdbRating > 4.9){
 							cachedResults.push(movie);
 						}else{
 							//do nothing for now
