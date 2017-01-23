@@ -1,39 +1,38 @@
 <html ng-app="tpbApp">
 <head>
-	<title>TPB + IMDb thing</title>
+	<title>This Is What You Should Watch</title>
 	<link rel="stylesheet" type="text/css" href="css/movies.css">
+	<link rel="stylesheet" type="text/css" href="css/fontello.css">
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 </head>
 <body ng-controller="MainCtrl">
+	<div class="title">
+		Movies, Watch Now!
+	</div>
+	<div class="title-sub">
+
+	</div>
 	<div class="genres">
-		<span class="genre" ng-click="state.genreFilter = ''">All</span>
-		<span class="genre" ng-click="state.genreFilter = 'action'">Action</span>
-		<span class="genre" ng-click="state.genreFilter = 'adventure'">Adventure</span>
-		<span class="genre" ng-click="state.genreFilter = 'comedy'">Comedy</span>
-		<span class="genre" ng-click="state.genreFilter = 'crime'">Crime</span>
-		<span class="genre" ng-click="state.genreFilter = 'drama'">Drama</span>
-		<span class="genre" ng-click="state.genreFilter = 'fantasy'">Fantasy</span>
-		<span class="genre" ng-click="state.genreFilter = 'horror'">Horror</span>
-		<span class="genre" ng-click="state.genreFilter = 'mystery'">Mystery</span>
-		<span class="genre" ng-click="state.genreFilter = 'romance'">Romance</span>
-		<span class="genre" ng-click="state.genreFilter = 'sci-fi'">Sci-Fi</span>
-		<span class="genre" ng-click="state.genreFilter = 'thriller'">Thriller</span>
+		<span class="genre" ng-repeat="genre in genres" ng-class="{'genre-selected':state.genreFilter == genre.filter}" ng-click="state.genreFilter = genre.filter">{{genre.name}}</span>
 	</div>
 	<div class="movies">
-		<div class="movie" ng-repeat="movie in movies | orderBy:state.sortCol:state.sortReverse | filter:state.genreFilter" ng-if="!state.seenIt[movie.Title]">
+		<div class="movie" ng-repeat="movie in movies | orderBy:state.sortCol:state.sortReverse | filter:state.genreFilter" ng-class="{'movie-selected':state.selectedInfo == movie.Title}" ng-if="!state.seenIt[movie.Title]">
 			<div class="movie-item" ng-click="infoClicked(movie)">
 				<div class="poster" ng-class="{'poster-expanded':state.selectedInfo == movie.Title}" ng-style="{'background-image':'url({{movie.Poster}})'}"></div>
 				<div class="movie-details" ng-class="{'movie-expanded-margin':state.selectedInfo == movie.Title}">
 					<div class="movie-details-1">
 						<span>{{movie.Year}}</span>
-						<span>{{movie.Genre | uppercase}}</span>
+						<span class="movie-details-genre">{{movie.Genre | uppercase}}</span>
 					</div>
 					<div class="movie-details-2">
 						<span>{{movie.Title | uppercase}}</span>
 						<span class="imdb-rating">{{movie.imdbRating}}</span>
 					</div>
-					<div class="movie-controls">
-						<span ng-click="addSeenIt(movie.Title)">[Seen It]</span>
+				</div>
+				<div class="movie-controls">
+					<div class="seen-it" ng-click="addSeenIt(movie.Title)">
+						<i class="icon-ok seen-it-icon"></i>
+						<div class="seen-it-text">Seen it!</div>
 					</div>
 				</div>
 			</div>
@@ -52,12 +51,18 @@
 				<div class="movie-download" ng-class="{'movie-expanded-margin':state.selectedInfo == movie.Title}">
 					<div class="movie-torrent" ng-repeat="torrent in state.torrents">
 						<a ng-href="{{torrent.torrentLink}}">
-							<div class="movie-torrent-title">{{torrent.title}} <span class="movie-torrent-size">{{torrent.size | bytes}}</span></div>
+							<div class="movie-torrent-left">
+								<i class="icon-down"></i>
+							</div>
+							<div class="movie-torrent-right">
+								<div class="movie-torrent-title">{{torrent.title}} <span class="movie-torrent-size">{{torrent.size | bytes}}</span></div>
+								<div class="movie-torrent-details">
+									<span class="bold">SEEDERS:</span> {{torrent.seeds | number}}
+									<span class="bold">PEERS:</span> {{torrent.peers | number}}
+								</div>
+							</div>
 						</a>
-						<div class="movie-torrent-details">
-							<span class="bold">SEEDERS:</span> {{torrent.seeds | number}}
-							<span class="bold">PEERS:</span> {{torrent.peers | number}}
-						</div>
+						
 					</div>
 					<div ng-if="loadingTorrents">Loading Torrents</div>
 				</div>

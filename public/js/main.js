@@ -37,6 +37,21 @@ angular.module('tpbApp', ['ngStorage'])
 			});
 		}
 
+		$scope.genres = [
+			{ name: 'all', filter: '' },
+			{ name: 'action', filter: 'action' },
+			{ name: 'adventure', filter: 'adventure' },
+			{ name: 'comedy', filter: 'comedy' },
+			{ name: 'crime', filter: 'crime' },
+			{ name: 'drama', filter: 'drama' },
+			{ name: 'fantasy', filter: 'fantasy' },
+			{ name: 'horror', filter: 'horror' },
+			{ name: 'mystery', filter: 'mystery' },
+			{ name: 'romance', filter: 'romance' },
+			{ name: 'sci-fi', filter: 'sci-fi' },
+			{ name: 'thriller', filter: 'thriller' }
+			];
+
 		//seenIt
 		$scope.addSeenIt = function(movieTitle){
 			$localStorage.seenIt[movieTitle] = { seen: true };
